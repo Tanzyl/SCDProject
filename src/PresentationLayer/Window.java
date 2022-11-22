@@ -1,5 +1,6 @@
 package PresentationLayer;
 
+import java.awt.Color;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -11,15 +12,34 @@ import LogicLayer.UrduString;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.DefaultHighlighter;
+import javax.swing.text.Highlighter;
+import javax.swing.text.Highlighter.HighlightPainter;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 public class Window extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField textField;
-	private JTextField textField_1;
+	private static JTextField textField;
+	private static JTextField textField_1;
 	private String urduTextTmp="";
+	public static void setTextField(String value,String oldVal) {
+		textField_1.setText(value);
+		Highlighter high=textField.getHighlighter();
+		HighlightPainter painter=new DefaultHighlighter.DefaultHighlightPainter(Color.pink);
+		int p0 = textField.getText().indexOf(oldVal);
+		try {
+			//high.removeAllHighlights();
+			high.addHighlight(p0, p0 + oldVal.length(), painter);
+        } catch (BadLocationException e1) {
+            e1.printStackTrace();
+        }
+	}
+	public static String getTextField() {
+		return textField_1.getText();
+	}
 	/**
 	 * Launch the application.
 	 */
@@ -57,6 +77,8 @@ public class Window extends JFrame {
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				urdutext.setTxt(textField.getText());
+				
+				
 				//=textField.getText();
 				//System.out.print(textField.getText());
 			}
