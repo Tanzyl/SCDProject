@@ -1,10 +1,11 @@
+package LogicLayer;
+
 import java.sql.Connection;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-
-import oracle.jdbc.*;
-import java.lang.Math;  
-public class SCDMain {
+import DataAccessLayer.Database;
+import oracle.jdbc.*;  
+public class Mutants {
 	static Connection conn=null;
 	static OraclePreparedStatement pst=null;
 	static OracleResultSet rs=null;
@@ -13,9 +14,9 @@ public class SCDMain {
 	static char[] mutant_check_hay={'ح','ہ'};
 	static char[] mutant_check_zay={'ظ','ض','ز','ذ'};
 	static char[] mutant_check_kaf={'ک','ق'};
-	//static char[] mutant_check_daal={'ڈ','ڑ'};
-	//static char[] mutant_check_say={'ث','س','ص'};
-	//static char[] mutant_check_gaaf={'غ','گ'};
+	static char[] mutant_check_daal={'ڈ','ڑ'};
+	static char[] mutant_check_say={'ث','س','ص'};
+	static char[] mutant_check_gaaf={'غ','گ'};
 	public static int idee=237;
 	
 
@@ -67,7 +68,7 @@ public class SCDMain {
 					replaceAndInsert(word,i,mutant_check_hay,id);
 				}
 			}
-			for(int j=0;j<2;j++) {
+			for(int j=0;j<4;j++) {
 				if((int)word.charAt(i)==(int)mutant_check_zay[j]) {
 					System.out.print("Mutant Found.");
 					replaceAndInsert(word,i,mutant_check_zay,id);
@@ -79,6 +80,24 @@ public class SCDMain {
 					replaceAndInsert(word,i,mutant_check_kaf,id);
 				}
 			}
+			for(int j=0;j<2;j++) {
+				if((int)word.charAt(i)==(int)mutant_check_daal[j]) {
+					System.out.print("Mutant Found.");
+					replaceAndInsert(word,i,mutant_check_daal,id);
+				}
+			}
+			for(int j=0;j<2;j++) {
+				if((int)word.charAt(i)==(int)mutant_check_gaaf[j]) {
+					System.out.print("Mutant Found.");
+					replaceAndInsert(word,i,mutant_check_gaaf,id);
+				}
+			}
+			for(int j=0;j<3;j++) {
+				if((int)word.charAt(i)==(int)mutant_check_say[j]) {
+					System.out.print("Mutant Found.");
+					replaceAndInsert(word,i,mutant_check_say,id);
+				}
+			}
 			//--------
 			System.out.print(' ');
 		}
@@ -86,7 +105,7 @@ public class SCDMain {
 			//System.out.print((int)mutant_check_list[0]);
 	}
 	public static void get_mutants() {
-		conn=ConnectionClass.dbconnect();
+		conn=Database.dbconnect();
 		try {
 						
 			
@@ -117,10 +136,10 @@ public class SCDMain {
 	}
 	
 	public static void main(String[] args) {
-		conn=ConnectionClass.dbconnect();
-		insert_create();
-		get_mutants();
-		try {
+		conn=Database.dbconnect();
+		//insert_create();
+		//get_mutants();
+		/*try {
 			String query="DROP TABLE Mutants";
 			pst=(OraclePreparedStatement) conn.prepareStatement(query);
 			rs=(OracleResultSet) pst.executeQuery();
@@ -141,7 +160,7 @@ public class SCDMain {
 			e.printStackTrace();
 		}
 		
-		
+		*/
 		
 	}
 		

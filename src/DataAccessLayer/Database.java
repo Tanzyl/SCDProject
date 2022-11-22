@@ -1,7 +1,9 @@
+package DataAccessLayer;
+
 import java.sql.*;
 
 import javax.swing.JOptionPane;
-public class ConnectionClass {
+public class Database {
 	public static Connection dbconnect() {
 		try {
 			Class.forName("oracle.jdbc.OracleDriver");
