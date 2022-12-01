@@ -9,14 +9,20 @@ public class Mutants {
 	static Connection conn=null;
 	static OraclePreparedStatement pst=null;
 	static OracleResultSet rs=null;
-	static char[] mutant_check_alif={'ا','ع'};
-	static char[] mutant_check_tay={'ت','ط'};
-	static char[] mutant_check_hay={'ح','ہ'};
-	static char[] mutant_check_zay={'ظ','ض','ز','ذ'};
-	static char[] mutant_check_kaf={'ک','ق'};
-	static char[] mutant_check_daal={'ڈ','ڑ'};
-	static char[] mutant_check_say={'ث','س','ص'};
-	static char[] mutant_check_gaaf={'غ','گ'};
+	static String[] mutant_check_alif={"ا","ع"};
+	static String[] mutant_check_be={"ب","بھ"};	//*
+	static String[] mutant_check_tay={"ت","ط","تھ"};
+	static String[] mutant_check_te={"ٹ","ٹھ"};	//*
+	static String[] mutant_check_hay={"ح","ہ"};
+	static String[] mutant_check_pay={"پ","پھ"};
+	static String[] mutant_check_zay={"ظ","ض","ز","ذ"};
+	static String[] mutant_check_kaf={"ک","ق", "کھ"};
+	static String[] mutant_check_dal={"د","دھ"}; //*
+	static String[] mutant_check_che={"چ","چھ"}; //*
+	static String[] mutant_check_jeem={"ج","جھ"}; //*
+	static String[] mutant_check_daal={"ڈ","ڑ"};
+	static String[] mutant_check_say={"ث","س","ص"};
+	static String[] mutant_check_gaaf={"غ","گ"};
 	public static int idee=237;
 	
 
