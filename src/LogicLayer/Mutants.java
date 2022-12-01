@@ -1,8 +1,14 @@
 package LogicLayer;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.sql.Statement;
+
+import com.mysql.cj.jdbc.ClientPreparedStatement;
+
 import DataAccessLayer.Database;
 import oracle.jdbc.*;  
 public class Mutants {
@@ -23,92 +29,185 @@ public class Mutants {
 	static String[] mutant_check_daal={"ڈ","ڑ"};
 	static String[] mutant_check_say={"ث","س","ص"};
 	static String[] mutant_check_gaaf={"غ","گ"};
-	public static int idee=237;
 	
-
+	public static int idee=270;
 	
-	static public void replaceAndInsert(String word,int idx,char[]check_arr,int id) {
-		
+	static public void replaceAndInsert(String word,int idx,String[]check_arr,int id) {
+		idee++;
 		for(int i=0;i<check_arr.length;i++) {
 			idee++;
-			if((int)word.charAt(idx)!=check_arr[i]) {
+			if((int)word.charAt(idx)!=check_arr[i].charAt(0)) {
 				String new_word = word.substring(0, idx) + check_arr[i]+ word.substring(idx + 1);
 				System.out.print(new_word);
-				  //conn=ConnectionClass.dbconnect();
+				Statement st=null;
 				try {
 					String query="INSERT INTO Mutants VALUES(?,?,?)";
-					pst=(OraclePreparedStatement) conn.prepareStatement(query);
-					pst.setInt(1,idee);
-					pst.setInt(2, id);
-					pst.setString(3,new_word);
-					rs=(OracleResultSet) pst.executeQuery();
+					st = conn.createStatement();
+					PreparedStatement pstmt = conn.prepareStatement(query);
+					pstmt.setInt(1,idee);//mutant id
+					pstmt.setInt(2, id); //word id
+					pstmt.setString(3,new_word); //generated mutant 
+					pstmt.executeUpdate();
 				}
 				catch(Exception e) {
 					e.printStackTrace();
 				}
+				checkMutant(new_word,id,idx+check_arr[i].length());
 				
+			}else {
+				if(check_arr[i].length()>1) {
+					String new_word = word.substring(0, idx) + check_arr[i]+ word.substring(idx + 1);
+					System.out.print(new_word);
+					Statement st=null;
+					try {
+						String query="INSERT INTO Mutants VALUES(?,?,?)";
+						st = conn.createStatement();
+						PreparedStatement pstmt = conn.prepareStatement(query);
+						pstmt.setInt(1,idee);//mutant id
+						pstmt.setInt(2, id); //word id
+						pstmt.setString(3,new_word); //generated mutant 
+						pstmt.executeUpdate();
+					}
+					catch(Exception e) {
+						e.printStackTrace();
+					}
+					checkMutant(new_word,id,idx+check_arr[i].length());
+				}
 			}
 		}
 	}
 	
 	
-	static public void checkMutant(String word,int id) {
-		for (int i=0;i<word.length();i++) {
-			//System.out.print((int)word.charAt(i));
-			//------
+	static public void checkMutant(String word,int id,int index) {
+		for (int i=index;i<word.length();i++) {
 			for(int j=0;j<2;j++) {
-				if((int)word.charAt(i)==(int)mutant_check_alif[j]) {
-					System.out.print("Mutant Found.");
-					replaceAndInsert(word,i,mutant_check_alif,id);
+				if(mutant_check_alif[j].length() == 1)
+				{
+					if((int)word.charAt(i)==(int)mutant_check_alif[j].charAt(0))
+					{
+						System.out.print("Mutant Found.");
+						replaceAndInsert(word,i,mutant_check_alif,id);
+					}
+				}
+			}
+			//---
+			for(int j=0;j<2;j++) {
+				if(mutant_check_be[j].length() == 1)
+				{
+					if((int)word.charAt(i)==(int)mutant_check_be[j].charAt(0)) {
+						System.out.print("Mutant Found.");
+						replaceAndInsert(word,i,mutant_check_be,id);
+					}
+				}
+			}
+
+			for(int j=0;j<2;j++) {
+				if(mutant_check_te[j].length() == 1)
+				{
+					if((int)word.charAt(i)==(int)mutant_check_te[j].charAt(0)) {
+						System.out.print("Mutant Found.");
+						replaceAndInsert(word,i,mutant_check_te,id);
+					}
+				}
+			}
+
+			for(int j=0;j<2;j++) {
+				if(mutant_check_dal[j].length() == 1)
+				{
+					if((int)word.charAt(i)==(int)mutant_check_dal[j].charAt(0)) {
+						System.out.print("Mutant Found.");
+						replaceAndInsert(word,i,mutant_check_dal,id);
+				}
+				}
+			}
+
+			for(int j=0;j<2;j++) {
+				if(mutant_check_che[j].length() == 1)
+				{
+					if((int)word.charAt(i)==(int)mutant_check_che[j].charAt(0)) {
+						System.out.print("Mutant Found.");
+						replaceAndInsert(word,i,mutant_check_che,id);
+					}
+				}
+			}
+
+			for(int j=0;j<2;j++) {
+				if(mutant_check_jeem[j].length() == 1)
+				{
+					if((int)word.charAt(i)==(int)mutant_check_jeem[j].charAt(0)) {
+						System.out.print("Mutant Found.");
+						replaceAndInsert(word,i,mutant_check_jeem,id);
+					}
+				}
+			}
+
+			//--
+			for(int j=0;j<3;j++) {
+				if(mutant_check_tay[j].length() == 1)
+				{
+					if((int)word.charAt(i)==(int)mutant_check_tay[j].charAt(0)) {
+						System.out.print("Mutant Found.");
+						replaceAndInsert(word,i,mutant_check_tay,id);
+					}
 				}
 			}
 			for(int j=0;j<2;j++) {
-				if((int)word.charAt(i)==(int)mutant_check_tay[j]) {
-					System.out.print("Mutant Found.");
-					replaceAndInsert(word,i,mutant_check_tay,id);
-				}
-			}
-			for(int j=0;j<2;j++) {
-				if((int)word.charAt(i)==(int)mutant_check_hay[j]) {
-					System.out.print("Mutant Found.");
-					replaceAndInsert(word,i,mutant_check_hay,id);
+				if(mutant_check_hay[j].length() == 1)
+				{
+					if((int)word.charAt(i)==(int)mutant_check_hay[j].charAt(0)) {
+						System.out.print("Mutant Found.");
+						replaceAndInsert(word,i,mutant_check_hay,id);
+					}
 				}
 			}
 			for(int j=0;j<4;j++) {
-				if((int)word.charAt(i)==(int)mutant_check_zay[j]) {
-					System.out.print("Mutant Found.");
-					replaceAndInsert(word,i,mutant_check_zay,id);
-				}
-			}
-			for(int j=0;j<2;j++) {
-				if((int)word.charAt(i)==(int)mutant_check_kaf[j]) {
-					System.out.print("Mutant Found.");
-					replaceAndInsert(word,i,mutant_check_kaf,id);
-				}
-			}
-			for(int j=0;j<2;j++) {
-				if((int)word.charAt(i)==(int)mutant_check_daal[j]) {
-					System.out.print("Mutant Found.");
-					replaceAndInsert(word,i,mutant_check_daal,id);
-				}
-			}
-			for(int j=0;j<2;j++) {
-				if((int)word.charAt(i)==(int)mutant_check_gaaf[j]) {
-					System.out.print("Mutant Found.");
-					replaceAndInsert(word,i,mutant_check_gaaf,id);
+				if(mutant_check_zay[j].length() == 1)
+				{
+					if((int)word.charAt(i)==(int)mutant_check_zay[j].charAt(0)) {
+						System.out.print("Mutant Found.");
+						replaceAndInsert(word,i,mutant_check_zay,id);
+					}
 				}
 			}
 			for(int j=0;j<3;j++) {
-				if((int)word.charAt(i)==(int)mutant_check_say[j]) {
-					System.out.print("Mutant Found.");
-					replaceAndInsert(word,i,mutant_check_say,id);
+				if(mutant_check_kaf[j].length() == 1)
+				{
+					if((int)word.charAt(i)==(int)mutant_check_kaf[j].charAt(0)) {
+						System.out.print("Mutant Found.");
+						replaceAndInsert(word,i,mutant_check_kaf,id);
+					}
 				}
 			}
-			//--------
+			for(int j=0;j<2;j++) {
+				if(mutant_check_daal[j].length() == 1)
+				{
+					if((int)word.charAt(i)==(int)mutant_check_daal[j].charAt(0)) {
+						System.out.print("Mutant Found.");
+						replaceAndInsert(word,i,mutant_check_daal,id);
+					}
+				}
+			}
+			for(int j=0;j<2;j++) {
+				if(mutant_check_gaaf[j].length() == 1)
+				{
+					if((int)word.charAt(i)==(int)mutant_check_gaaf[j].charAt(0)) {
+						System.out.print("Mutant Found.");
+						replaceAndInsert(word,i,mutant_check_gaaf,id);
+					}
+				}
+			}
+			for(int j=0;j<3;j++) {
+				if(mutant_check_say[j].length() == 1)
+				{
+					if((int)word.charAt(i)==(int)mutant_check_say[j].charAt(0)) {
+						System.out.print("Mutant Found.");
+						replaceAndInsert(word,i,mutant_check_say,id);
+					}
+				}
+			}
 			System.out.print(' ');
 		}
 		
-			//System.out.print((int)mutant_check_list[0]);
 	}
 	public static void get_mutants() {
 		conn=Database.dbconnect();
@@ -116,72 +215,36 @@ public class Mutants {
 						
 			
 			String query="SELECT word_id,word FROM Words";
-			pst=(OraclePreparedStatement) conn.prepareStatement(query);
-			rs=(OracleResultSet) pst.executeQuery();
-			ResultSetMetaData rsmd = rs.getMetaData();
-			int columnsNumber = rsmd.getColumnCount();
-			
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery(query);
 			int w_id=-1;
-			while (rs.next()) {
-			    for (int i = 1; i <= columnsNumber; i++) {
-			        if (i > 1) System.out.print("  ");
-			        String columnValue = rs.getString(i);
-			        if(i==columnsNumber) {
-			        	checkMutant(columnValue,w_id);
-			        }else {
-			        	w_id=Integer.parseInt(columnValue);
-			        }     
-			    }
-			    System.out.println("");
-			}
-			pst.close();
-			rs.close();
+			while(rs.next()){
+			    //Display values
+				w_id=rs.getInt("word_id");
+				checkMutant(rs.getString("word"),w_id,0);
+			 }
+
+			
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
 	}
 	
-	public static void main(String[] args) {
+	public static void control() {
 		conn=Database.dbconnect();
-		//insert_create();
-		//get_mutants();
-		/*try {
-			String query="DROP TABLE Mutants";
-			pst=(OraclePreparedStatement) conn.prepareStatement(query);
-			rs=(OracleResultSet) pst.executeQuery();
-			ResultSetMetaData rsmd = rs.getMetaData();
-			int columnsNumber = rsmd.getColumnCount();
-			
-			int w_id=-1;
-			while (rs.next()) {
-			    for (int i = 1; i <= columnsNumber; i++) {
-			        if (i > 1) System.out.print("  ");
-			        String columnValue = rs.getString(i);
-			        System.out.print(columnValue);  
-			    }
-			    System.out.println("");
-			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		*/
-		
+		insert_create();
+		get_mutants();
 	}
-		
-
+	
 	public static void insert_create() {
-		//String query="CREATE TABLE Words(word_id INTEGER,Frequency INTEGER,word varchar(50),PRIMARY KEY ( word_id ))";
-
+		Statement st = null;
 		String query="CREATE TABLE Mutants(mutant_id INTEGER,word_id INTEGER,word varchar(50),PRIMARY KEY ( mutant_id ),FOREIGN KEY(word_id) REFERENCES Words(word_id))";
 		try {
-			pst=(OraclePreparedStatement) conn.prepareStatement(query);
-			rs=(OracleResultSet) pst.executeQuery();
+			st = conn.createStatement();
+			PreparedStatement pstmt = conn.prepareStatement(query);
+			pstmt.executeUpdate();		
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 	}
 }
