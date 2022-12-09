@@ -15,21 +15,28 @@ public class Mutants {
 	static Connection conn=null;
 	static OraclePreparedStatement pst=null;
 	static OracleResultSet rs=null;
-	static String[] mutant_check_alif={"ا","ع"};
-	static String[] mutant_check_be={"ب","بھ"};	//*
+	static String[] mutant_check_alif={"ا","ع","آ"};
+	static String[] mutant_check_be={"ب","بھ"};	
 	static String[] mutant_check_tay={"ت","ط","تھ"};
-	static String[] mutant_check_te={"ٹ","ٹھ"};	//*
+	static String[] mutant_check_te={"ٹ","ٹھ"};	
 	static String[] mutant_check_hay={"ح","ہ"};
 	static String[] mutant_check_pay={"پ","پھ"};
 	static String[] mutant_check_zay={"ظ","ض","ز","ذ"};
 	static String[] mutant_check_kaf={"ک","ق", "کھ"};
-	static String[] mutant_check_dal={"د","دھ"}; //*
-	static String[] mutant_check_che={"چ","چھ"}; //*
-	static String[] mutant_check_jeem={"ج","جھ"}; //*
-	static String[] mutant_check_daal={"ڈ","ڑ"};
+	static String[] mutant_check_dal={"د","دھ"}; 
+	static String[] mutant_check_che={"چ","چھ"}; 
+	static String[] mutant_check_jeem={"ج","جھ"}; 
+	static String[] mutant_check_daal={"ڈ","ڑ","ڈھ"};
 	static String[] mutant_check_say={"ث","س","ص"};
-	static String[] mutant_check_gaaf={"غ","گ"};
-	
+	static String[] mutant_check_gaaf={"غ","گ","گھ"};
+	static String[] mutant_check_ray= { "ر","رھ", "ڑھ"};
+	static String[] mutant_check_rray= { "ڑ","ڑھ"};
+	static String[] mutant_check_laam= {"ل","لھ"};
+	static String[] mutant_check_meem= {"م","مھ"};
+	static String[] mutant_check_noon= {"ن","ں","نھ"};
+	static String[] mutant_check_wao= {"و","وھ"};
+	static String[] mutant_check_yey= {"ی","یھ"};
+	//     
 	public static int idee=270;
 	
 	static public void replaceAndInsert(String word,int idx,String[]check_arr,int id) {
@@ -57,7 +64,7 @@ public class Mutants {
 			}else {
 				if(check_arr[i].length()>1) {
 					String new_word = word.substring(0, idx) + check_arr[i]+ word.substring(idx + 1);
-					System.out.print(new_word);
+					//System.out.print(new_word);
 					Statement st=null;
 					try {
 						String query="INSERT INTO Mutants VALUES(?,?,?)";
@@ -80,7 +87,78 @@ public class Mutants {
 	
 	static public void checkMutant(String word,int id,int index) {
 		for (int i=index;i<word.length();i++) {
+			for(int j=0;j<1;j++) {
+				if(mutant_check_alif[j].length() == 1)
+				{
+					if((int)word.charAt(i)==(int)mutant_check_ray[j].charAt(0))
+					{
+						System.out.print("Mutant Found.");
+						replaceAndInsert(word,i,mutant_check_ray,id);
+					}
+				}
+			}
+			for(int j=0;j<1;j++) {
+				if(mutant_check_alif[j].length() == 1)
+				{
+					if((int)word.charAt(i)==(int)mutant_check_rray[j].charAt(0))
+					{
+						System.out.print("Mutant Found.");
+						replaceAndInsert(word,i,mutant_check_rray,id);
+					}
+				}
+			}
+			for(int j=0;j<1;j++) {
+				if(mutant_check_alif[j].length() == 1)
+				{
+					if((int)word.charAt(i)==(int)mutant_check_laam[j].charAt(0))
+					{
+						System.out.print("Mutant Found.");
+						replaceAndInsert(word,i,mutant_check_laam,id);
+					}
+				}
+			}
+			for(int j=0;j<1;j++) {
+				if(mutant_check_alif[j].length() == 1)
+				{
+					if((int)word.charAt(i)==(int)mutant_check_meem[j].charAt(0))
+					{
+						System.out.print("Mutant Found.");
+						replaceAndInsert(word,i,mutant_check_meem,id);
+					}
+				}
+			}
 			for(int j=0;j<2;j++) {
+				if(mutant_check_alif[j].length() == 1)
+				{
+					if((int)word.charAt(i)==(int)mutant_check_noon[j].charAt(0))
+					{
+						System.out.print("Mutant Found.");
+						replaceAndInsert(word,i,mutant_check_noon,id);
+					}
+				}
+			}
+			for(int j=0;j<1;j++) {
+				if(mutant_check_alif[j].length() == 1)
+				{
+					if((int)word.charAt(i)==(int)mutant_check_wao[j].charAt(0))
+					{
+						System.out.print("Mutant Found.");
+						replaceAndInsert(word,i,mutant_check_wao,id);
+					}
+				}
+			}
+			for(int j=0;j<1;j++) {
+				if(mutant_check_alif[j].length() == 1)
+				{
+					if((int)word.charAt(i)==(int)mutant_check_yey[j].charAt(0))
+					{
+						System.out.print("Mutant Found.");
+						replaceAndInsert(word,i,mutant_check_yey,id);
+					}
+				}
+			}
+			//------
+			for(int j=0;j<3;j++) {
 				if(mutant_check_alif[j].length() == 1)
 				{
 					if((int)word.charAt(i)==(int)mutant_check_alif[j].charAt(0))
@@ -214,13 +292,13 @@ public class Mutants {
 		try {
 						
 			
-			String query="SELECT word_id,word FROM Words";
+			String query="SELECT id,word FROM words";
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 			int w_id=-1;
 			while(rs.next()){
 			    //Display values
-				w_id=rs.getInt("word_id");
+				w_id=rs.getInt("id");
 				checkMutant(rs.getString("word"),w_id,0);
 			 }
 
@@ -238,7 +316,7 @@ public class Mutants {
 	
 	public static void insert_create() {
 		Statement st = null;
-		String query="CREATE TABLE Mutants(mutant_id INTEGER,word_id INTEGER,word varchar(50),PRIMARY KEY ( mutant_id ),FOREIGN KEY(word_id) REFERENCES Words(word_id))";
+		String query="CREATE TABLE Mutants(mutant_id INTEGER,word_id INTEGER,word varchar(50),PRIMARY KEY ( mutant_id ))";
 		try {
 			st = conn.createStatement();
 			PreparedStatement pstmt = conn.prepareStatement(query);
