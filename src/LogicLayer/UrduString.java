@@ -1,81 +1,126 @@
 package LogicLayer;
-import PresentationLayer.Window;
+import PresentationLayer.Window1;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
-import DataAccessLayer.Database;
-import oracle.jdbc.*;  
+import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
+
+import DataAccessLayer.Database;  
 public class UrduString {
 	static Connection conn=null;
-	static OraclePreparedStatement pst=null;
-	static OracleResultSet rs=null;
-	static OraclePreparedStatement pst_inner=null;
-	static OracleResultSet rs_inner=null;
+	 static List<String> CheckWord = new ArrayList<String>();
+	 static List<Integer> ID = new ArrayList<Integer>();
+	 static List<String> word = new ArrayList<String>();
 	private String txt;
 	UrduString(){
 		txt="";
 	}
-	public void setTxt(String text) {
+	public void setTxt(String text,DefaultListModel listModel) throws NumberFormatException, SQLException {
 		txt=text;
-		CheckMutant();
+		CheckMutant(listModel);
 	}
 	public String getTxt() {
 		return txt;
 	} 
-	public void CheckMutant() {
+	public void CheckMutant(DefaultListModel listModel) throws NumberFormatException, SQLException {
 		String[] words = txt.split(" ");
-		for(int i=0;i<words.length;i++) {
-			System.out.print(words[i]+'\n');
-		}
-		//-----------------------------------------------------
+				//-----------------------------------------------------
 		conn=Database.dbconnect();
-		Window.setTextField("","");
-		try {
-			String query="SELECT * FROM Mutants";
-			pst=(OraclePreparedStatement) conn.prepareStatement(query);
-			rs=(OracleResultSet) pst.executeQuery();
-			ResultSetMetaData rsmd = rs.getMetaData();
-			int columnsNumber = rsmd.getColumnCount();
+		if (!conn.isClosed()) {
 			
-			int w_id=-1;
-			while (rs.next()) {
-			    for (int i = 1; i <= columnsNumber; i++) {
-			    	
-			        String columnValue = rs.getString(i);
-			        
-			        if(i==columnsNumber) {
-			        	//System.out.print(columnValue);
-			        	for(int k=0;k<words.length;k++) {
-			        		//System.out.print(columnValue);
-			        		if(words[k].equals(columnValue)) {
-			        			System.out.print("Mistake Found");
-			        			//CALLL HERE
-			        			query="SELECT word FROM Words WHERE word_id=?";
-			        			pst_inner=(OraclePreparedStatement) conn.prepareStatement(query);
-			        			pst_inner.setInt(1,w_id);
-			        			rs_inner=(OracleResultSet) pst_inner.executeQuery();
-			        			ResultSetMetaData rsmd_under = rs_inner.getMetaData();
-			        			int columnsNumber_under = rsmd_under.getColumnCount();
-			        			while (rs_inner.next()) {
-			        				String og_word = rs_inner.getString(1);
-			        				Window.setTextField(Window.getTextField()+og_word+" ",words[k]);
-			        			}
-			        		}	 
-			        	}
-			        }
-			        else {
-	        			w_id=Integer.parseInt(columnValue);
-	        		}  
-			    }
-			    System.out.println("");
+		Window1.setTextField("","");
+		Statement st=null;
+		try {
+			
+			
+			for ( int i=0;i<words.length;i++ ) {
+	    		PreparedStatement Sql = conn.prepareStatement("SELECT * FROM mutants WHERE Word LIKE '" + words[i] + "'");
+	          
+	            ResultSet rse = Sql.executeQuery();
+	    	      
+	    	      if (rse.next()) {
+	    	    	 
+	    	    	  CheckWord.add((String) words[i]);
+	    	    	  int F=(int) rse.getObject("your forrun key name");
+	    	    	  ID.add(F);
+	                 
+	              } else {
+	            	 
+	            	   
+	              }
+	    	      
+	    		}
+			if(CheckWord.size()==0) {
+				
+				JOptionPane.showMessageDialog(null,"No Error Here"); 
 			}
-			pst.close();
-			rs.close();
+			for ( int i=0;i<ID.size();i++ ) {
+			 PreparedStatement sql2 = conn.prepareStatement("SELECT * FROM word WHERE word_id = '" + ID.get(i) + "'");
+             
+             ResultSet rse = sql2.executeQuery();
+     	      
+     	      if (rse.next()) {
+     	    	 
+     	    	  String w=(String) rse.getObject("words");
+     	    	  word.add(w);
+                  
+               } 
+			}
+			listModel.clear();
+			for(int i=0;i<CheckWord.size();i++) {
+				
+				Window1.setTextField(word.get(i),CheckWord.get(i));
+				
+				listModel.addElement(CheckWord.get(i));
+			}
+			
+			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		}
+	}
+	
+	public static String Check(String Word) {
+		String W = null;
+		for(int i=0;i<CheckWord.size();i++) {
+			if(CheckWord.get(i).equals(Word)) {
+				W=word.get(i);
+				break;
+			}
+			
+		}
+		return W;
+	}
+	public static void SetTextField(JTextField textField,String RWord,String CWord) {
+		String Str=textField.getText();
+		
+		StringBuilder Wor = new StringBuilder();
+		String[] words = Str.split(" ");
+		for(int i=0;i<words.length;i++) {
+			
+			if(words[i].equals(RWord)) {
+				Wor.append( CWord);
+				Wor.append( " ");
+			}
+			else {
+				Wor.append( words[i]);
+				Wor.append( " ");
+			}
+		}
+		String W=Wor.toString();
+		textField.setText("");
+		textField.setText(W);
+		
 		
 	}
 }

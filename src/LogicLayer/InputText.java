@@ -1,9 +1,9 @@
 package LogicLayer;
-import PresentationLayer.Window;
+import PresentationLayer.Window1;
 public class InputText {
 	public static void main(String[] args) {
 		UrduString data=new UrduString();
-		Window.showWindow(data);
+		Window1.showWindow(data);
 		
 	}
 	
