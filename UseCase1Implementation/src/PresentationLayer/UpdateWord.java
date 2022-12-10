@@ -22,6 +22,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import java.awt.Font;
+import java.awt.Color;
 
 public class UpdateWord extends JFrame {
 
@@ -32,6 +33,7 @@ public class UpdateWord extends JFrame {
 	private JButton btnNewButton_1;
 	private JTextField idtext;
 	private JLabel lblNewLabel;
+	private JButton backBtn;
 
 	/**
 	 * Launch the application.
@@ -62,7 +64,7 @@ public class UpdateWord extends JFrame {
 		
 		updateWord = new JTextField();
 		updateWord.setColumns(10);
-		updateWord.setBounds(274, 113, 150, 35);
+		updateWord.setBounds(274, 86, 150, 35);
 		contentPane.add(updateWord);
 		
 		JButton btnNewButton = new JButton("Display");
@@ -101,7 +103,7 @@ public class UpdateWord extends JFrame {
 				}
 			}
 		});
-		btnNewButton.setBounds(304, 227, 89, 23);
+		btnNewButton.setBounds(304, 176, 89, 23);
 		contentPane.add(btnNewButton);
 		
 		scrollPane = new JScrollPane();
@@ -139,7 +141,7 @@ public class UpdateWord extends JFrame {
 				}
 			
 		});
-		btnNewButton_1.setBounds(304, 177, 89, 23);
+		btnNewButton_1.setBounds(304, 142, 89, 23);
 		contentPane.add(btnNewButton_1);
 		
 		idtext = new JTextField();
@@ -151,6 +153,18 @@ public class UpdateWord extends JFrame {
 		lblNewLabel.setFont(new Font("Times New Roman", Font.BOLD, 11));
 		lblNewLabel.setBounds(284, 61, 46, 14);
 		contentPane.add(lblNewLabel);
+		
+		backBtn = new JButton("Back");
+		backBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+				InsertingData frame = new InsertingData();
+				frame.setVisible(true);
+			}
+		});
+		backBtn.setBackground(Color.RED);
+		backBtn.setBounds(304, 227, 89, 23);
+		contentPane.add(backBtn);
 	}
 
 }

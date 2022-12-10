@@ -1,4 +1,4 @@
-package ApplicationLayer;
+package LogicLayer;
 
 import java.awt.EventQueue;
 

@@ -1,11 +1,14 @@
-package DataLayer;
+package DataAccessLayer;
 
 import java.sql.Connection;
+
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class BuildSQL {
+import javax.swing.JOptionPane;
+
+public class Database_tanzyl {
 	private static String url;
 	private static String username;
 	private static String password;
@@ -13,7 +16,8 @@ public class BuildSQL {
 	private int id;
 	private static int id2;
 
-	public BuildSQL() {
+	public Database_tanzyl() {
+		
 		try {
 			id = 1;
 			url = "jdbc:mysql://localhost:3306/spellchecker?useSSL=false";
@@ -52,6 +56,7 @@ public class BuildSQL {
 		// TODO Auto-generated method stub
 		
 	}
+	
+	}
 
-}
 
