@@ -4,10 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import PresentationLayer.Window1j_haram;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
@@ -27,21 +25,20 @@ public class UrduString_haram {
 	public UrduString_haram(){
 		txt = "";
 	}
-	public void setTxt(String text,DefaultListModel listModel) throws NumberFormatException, SQLException {
+	public void setTxt(String text,DefaultListModel<String> listModel) throws NumberFormatException, SQLException {
 		txt=text;
 		CheckMutant(listModel);
 	}
 	public String getTxt() {
 		return txt;
 	} 
-	public void CheckMutant(DefaultListModel listModel) throws NumberFormatException, SQLException {
+	public void CheckMutant(DefaultListModel<String> listModel) throws NumberFormatException, SQLException {
 		String[] words = txt.split(" ");
 		//-----------------------------------------------------
 		conn=Database_haram.dbconnect();
 		if (!conn.isClosed()) {
 
 			Window1j_haram.setTextField("","");
-			Statement st=null;
 			try {
 
 

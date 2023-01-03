@@ -1,8 +1,6 @@
 package PresentationLayer;
 import DataAccessLayer.Database_tanzyl;
-import LogicLayer.Inputtext_haram;
 import LogicLayer.UrduString_haram;
-import PresentationLayer.Window1j_haram;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -13,8 +11,8 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 
-import javax.swing.DefaultListModel;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -27,21 +25,26 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+
 public class InsertingData extends JFrame {
+	private static InsertingData instance = null;
 	private JPanel contentPane;
-	private JTextField textField;
+	JTextField textField;
 	private Database_tanzyl obj ; 
 	static ArrayList Paragraph=new ArrayList();
 	static ArrayList Word=new ArrayList();
-	
-	/**
-	 * Create the frame.
-	 */
+	public static InsertingData getInstance() {
+		if (instance == null) {
+			instance = new InsertingData();
+		}
+		return instance;
+	}
 	public InsertingData() {
 		obj = new Database_tanzyl();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
+		contentPane.setBackground(new Color(0, 139, 139));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
@@ -81,9 +84,7 @@ public class InsertingData extends JFrame {
 					        String title = eElement.getElementsByTagName("title").item(0).getTextContent();
 					        String author = eElement.getElementsByTagName("author").item(0).getTextContent();
 					        String section = eElement.getElementsByTagName("section").item(0).getTextContent();
-					        Paragraph.add(section);
-						       
-					        
+					        Paragraph.add(section);    
 					   }
 					            obj.insert(row);
 					            }}
@@ -112,7 +113,8 @@ public class InsertingData extends JFrame {
 				 }
 				 
 				LinkedHashSet<String> set = new LinkedHashSet<String>();
-		        for (int i = 0; i < Word.size(); i++) {
+		        for (int i = 0; i < Word.size(); i++) 
+		        {
 		            set.add((String) Word.get(i));
 		        }
 		        ArrayList S2=new ArrayList();
@@ -122,6 +124,7 @@ public class InsertingData extends JFrame {
 		            CurrentElement = it.next();
 		            S2.add(CurrentElement);
 		        }
+		        
 		       Database_tanzyl obj2=new Database_tanzyl();
 				 System.out.println(set.size());
 				 System.out.println(S2.size());
@@ -135,7 +138,7 @@ public class InsertingData extends JFrame {
 		        }
 			}
 		});
-		btnNewButton.setBounds(67, 177, 89, 23);
+		btnNewButton.setBounds(65, 227, 89, 23);
 		contentPane.add(btnNewButton);
 		
 		JLabel lblNewLabel = new JLabel("Spell Checker");
@@ -153,7 +156,7 @@ public class InsertingData extends JFrame {
 				
 			}
 		});
-		updateBtn.setBounds(294, 227, 130, 23);
+		updateBtn.setBounds(294, 221, 130, 34);
 		contentPane.add(updateBtn);
 		
 		JButton mutantsBtn = new JButton("Generate Mutants");
@@ -164,7 +167,7 @@ public class InsertingData extends JFrame {
 				frame.setVisible(true);
 			}
 		});
-		mutantsBtn.setBounds(294, 177, 130, 23);
+		mutantsBtn.setBounds(294, 171, 130, 39);
 		contentPane.add(mutantsBtn);
 		
 		JButton testTextBtn = new JButton("Test Text ");
@@ -178,11 +181,27 @@ public class InsertingData extends JFrame {
 				
 			}
 		});
-		testTextBtn.setBounds(294, 127, 130, 23);
+		testTextBtn.setBounds(294, 116, 130, 34);
 		contentPane.add(testTextBtn);
 		
-		JLabel lblNewLabel_1 = new JLabel("Enter address to upload data in database");
-		lblNewLabel_1.setBounds(22, 102, 206, 14);
+		JLabel lblNewLabel_1 = new JLabel("Enter address to upload data in database:");
+		lblNewLabel_1.setFont(new Font("Times New Roman", Font.PLAIN, 14));
+		lblNewLabel_1.setBounds(22, 102, 253, 14);
 		contentPane.add(lblNewLabel_1);
+		
+		JButton browseBtn = new JButton("Browse");
+		browseBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JFileChooser file_upload = new JFileChooser();
+				file_upload.setCurrentDirectory (new File("."));
+				int res_2 = file_upload.showSaveDialog(null);
+				if(res_2 == JFileChooser. APPROVE_OPTION) {
+				File file_path = new File(file_upload.getSelectedFile().getAbsolutePath());
+				System.out.println(file_path);
+				}
+			}
+		});
+		browseBtn.setBounds(65, 166, 89, 23);
+		contentPane.add(browseBtn);
 	}
 }

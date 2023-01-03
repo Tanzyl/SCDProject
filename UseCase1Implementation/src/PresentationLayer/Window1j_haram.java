@@ -77,7 +77,7 @@ public class Window1j_haram extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 747, 535);
 		contentPane = new JPanel();
-		contentPane.setBackground(new Color(230, 230, 250));
+		contentPane.setBackground(new Color(0, 139, 139));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
@@ -180,8 +180,8 @@ public class Window1j_haram extends JFrame {
 		lblNewLabel_2.setBounds(600, 368, 104, 14);
 		contentPane.add(lblNewLabel_2);
 		
-		JLabel lblNewLabel_3 = new JLabel("Urdu Spell Checker");
-		lblNewLabel_3.setFont(new Font("Tw Cen MT", Font.BOLD | Font.ITALIC, 27));
+		JLabel lblNewLabel_3 = new JLabel("Spell Checker");
+		lblNewLabel_3.setFont(new Font("Times New Roman", Font.BOLD | Font.ITALIC, 27));
 		lblNewLabel_3.setBounds(238, 36, 271, 70);
 		contentPane.add(lblNewLabel_3);
 		

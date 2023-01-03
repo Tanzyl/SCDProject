@@ -4,11 +4,8 @@ package LogicLayer;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-//import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
-
-//import com.mysql.cj.jdbc.ClientPreparedStatement;
 
 import DataAccessLayer.Database_wajeeha;
 
