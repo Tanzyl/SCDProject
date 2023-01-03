@@ -1,7 +1,5 @@
-package ApplicationLayer;
-
+package LogicLayer;
 import java.awt.EventQueue;
-
 import PresentationLayer.InsertingData;
 
 public class Main {
@@ -16,5 +14,7 @@ public class Main {
 				}
 			}
 		});
-	}
-}
+	 }
+	
+  }
+
