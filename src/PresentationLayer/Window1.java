@@ -28,6 +28,7 @@ import java.awt.Font;
 
 public class Window1 extends JFrame {
 
+
 	private JPanel contentPane;
 	private static JTextField textField;
 	private String urduTextTmp="";
