@@ -1,16 +1,17 @@
 package LogicLayer;
-
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-
-import DataAccessLayer.Database_wajeeha;
-
-public class Mutants_wajeeha {
-	static Connection conn=null;
+import DataAccessLayer.MutantDataAccess;  
+public class Mutants {
+	private static Mutants instance;
+	Mutants() {}
+public static Mutants getInstance() {
+	if(instance==null)
+	{
+		instance= new Mutants();	
+	}
+	return instance;
+}
+	//global variables
 	static String[] mutant_check_alif={"ا","ع","آ"};
 	static String[] mutant_check_be={"ب","بھ"};	
 	static String[] mutant_check_tay={"ت","ط","تھ"};
@@ -32,293 +33,140 @@ public class Mutants_wajeeha {
 	static String[] mutant_check_noon= {"ن","ں","نھ"};
 	static String[] mutant_check_wao= {"و","وھ"};
 	static String[] mutant_check_yey= {"ی","یھ"};
-	//     
-	public static int idee=270;
-	
-	static public void replaceAndInsert(String word,int idx,String[]check_arr,int id) {
-		idee++;
-		for(int i=0;i<check_arr.length;i++) {
+	public static int idee=1;
+	static public boolean replaceAndInsert(String word,int idx,String[]checkArray,int id) {
+		
+		if(word == "")
+			return false;
+		for(int i=0;i<checkArray.length;i++) { //arrays length 
 			idee++;
-			if((int)word.charAt(idx)!=check_arr[i].charAt(0)) {
-				String new_word = word.substring(0, idx) + check_arr[i]+ word.substring(idx + 1);
+			if((int)word.charAt(idx)!=checkArray[i].charAt(0)) //b!=b 
+				{
+				String new_word = word.substring(0, idx) + checkArray[i]+ word.substring(idx + 1);
 				System.out.print(new_word);
-				Statement st=null;
+		
 				try {
-					String query="INSERT INTO Mutants VALUES(?,?,?)";
-					st = conn.createStatement();
-					PreparedStatement pstmt = conn.prepareStatement(query);
-					pstmt.setInt(1,idee);//mutant id
-					pstmt.setInt(2, id); //word id
-					pstmt.setString(3,new_word); //generated mutant 
-					pstmt.executeUpdate();
+					insertion(idx, checkArray, id, i, new_word);
+					return true;
 				}
 				catch(Exception e) {
-					e.printStackTrace();
-				}
-				checkMutant(new_word,id,idx+check_arr[i].length());
+					//e.printStackTrace();
+					return false;}
 				
 			}else {
-				if(check_arr[i].length()>1) {
-					String new_word = word.substring(0, idx) + check_arr[i]+ word.substring(idx + 1);
+				if(checkArray[i].length()>1) {
+					String new_word = word.substring(0, idx) + checkArray[i]+ word.substring(idx + 1);
 					//System.out.print(new_word);
-					Statement st=null;
+				//	Statement st=null;
 					try {
-						String query="INSERT INTO Mutants VALUES(?,?,?)";
-						st = conn.createStatement();
-						PreparedStatement pstmt = conn.prepareStatement(query);
-						pstmt.setInt(1,idee);//mutant id
-						pstmt.setInt(2, id); //word id
-						pstmt.setString(3,new_word); //generated mutant 
-						pstmt.executeUpdate();
+						insertion(idx, checkArray, id, i, new_word);
+						return true;
 					}
 					catch(Exception e) {
-						e.printStackTrace();
+						//e.printStackTrace();
+						return false;
 					}
-					checkMutant(new_word,id,idx+check_arr[i].length());
+					
 				}
 			}
+			
 		}
+		return false;
+	}
+	public static void insertion(int idx, String[] checkArray, int id, int i, String new_word) throws SQLException {
+		MutantDataAccess.insertMutant(id, new_word);
+		checkMutant(new_word,id,idx+checkArray[i].length());
 	}
 	
-	
 	static public void checkMutant(String word,int id,int index) {
-		for (int i=index;i<word.length();i++) {
+		for (int i=index;i<word.length();i++) //caters the original word  wrt its 
+		{
 			for(int j=0;j<1;j++) {
-				if(mutant_check_alif[j].length() == 1)
-				{
-					if((int)word.charAt(i)==(int)mutant_check_ray[j].charAt(0))
-					{
-						System.out.print("Mutant Found.");
-						replaceAndInsert(word,i,mutant_check_ray,id);
-					}
-				}
+				checkChar(word, id, i, j,mutant_check_ray);
 			}
 			for(int j=0;j<1;j++) {
-				if(mutant_check_alif[j].length() == 1)
-				{
-					if((int)word.charAt(i)==(int)mutant_check_rray[j].charAt(0))
-					{
-						System.out.print("Mutant Found.");
-						replaceAndInsert(word,i,mutant_check_rray,id);
-					}
-				}
+				checkChar(word, id, i, j,mutant_check_rray);
 			}
 			for(int j=0;j<1;j++) {
-				if(mutant_check_alif[j].length() == 1)
-				{
-					if((int)word.charAt(i)==(int)mutant_check_laam[j].charAt(0))
-					{
-						System.out.print("Mutant Found.");
-						replaceAndInsert(word,i,mutant_check_laam,id);
-					}
-				}
+				checkChar(word, id, i, j,mutant_check_laam);
 			}
 			for(int j=0;j<1;j++) {
-				if(mutant_check_alif[j].length() == 1)
-				{
-					if((int)word.charAt(i)==(int)mutant_check_meem[j].charAt(0))
-					{
-						System.out.print("Mutant Found.");
-						replaceAndInsert(word,i,mutant_check_meem,id);
-					}
-				}
+				checkChar(word, id, i, j,mutant_check_meem);
 			}
 			for(int j=0;j<2;j++) {
-				if(mutant_check_alif[j].length() == 1)
-				{
-					if((int)word.charAt(i)==(int)mutant_check_noon[j].charAt(0))
-					{
-						System.out.print("Mutant Found.");
-						replaceAndInsert(word,i,mutant_check_noon,id);
-					}
-				}
+				checkChar(word, id, i, j,mutant_check_noon);
 			}
 			for(int j=0;j<1;j++) {
-				if(mutant_check_alif[j].length() == 1)
-				{
-					if((int)word.charAt(i)==(int)mutant_check_wao[j].charAt(0))
-					{
-						System.out.print("Mutant Found.");
-						replaceAndInsert(word,i,mutant_check_wao,id);
-					}
-				}
+				checkChar(word, id, i, j,mutant_check_wao);
 			}
 			for(int j=0;j<1;j++) {
-				if(mutant_check_alif[j].length() == 1)
-				{
-					if((int)word.charAt(i)==(int)mutant_check_yey[j].charAt(0))
-					{
-						System.out.print("Mutant Found.");
-						replaceAndInsert(word,i,mutant_check_yey,id);
-					}
-				}
+				checkChar(word, id, i, j,mutant_check_yey);
 			}
-			//------
 			for(int j=0;j<3;j++) {
-				if(mutant_check_alif[j].length() == 1)
-				{
-					if((int)word.charAt(i)==(int)mutant_check_alif[j].charAt(0))
-					{
-						System.out.print("Mutant Found.");
-						replaceAndInsert(word,i,mutant_check_alif,id);
-					}
-				}
+				checkChar(word, id, i, j,mutant_check_alif);
 			}
-			//---
 			for(int j=0;j<2;j++) {
-				if(mutant_check_be[j].length() == 1)
-				{
-					if((int)word.charAt(i)==(int)mutant_check_be[j].charAt(0)) {
-						System.out.print("Mutant Found.");
-						replaceAndInsert(word,i,mutant_check_be,id);
-					}
-				}
+				checkChar(word, id, i, j,mutant_check_be);
 			}
 
 			for(int j=0;j<2;j++) {
-				if(mutant_check_te[j].length() == 1)
-				{
-					if((int)word.charAt(i)==(int)mutant_check_te[j].charAt(0)) {
-						System.out.print("Mutant Found.");
-						replaceAndInsert(word,i,mutant_check_te,id);
-					}
-				}
+				checkChar(word, id, i, j,mutant_check_te);
 			}
 
 			for(int j=0;j<2;j++) {
-				if(mutant_check_dal[j].length() == 1)
-				{
-					if((int)word.charAt(i)==(int)mutant_check_dal[j].charAt(0)) {
-						System.out.print("Mutant Found.");
-						replaceAndInsert(word,i,mutant_check_dal,id);
-				}
-				}
+				checkChar(word, id, i, j,mutant_check_dal);
 			}
 
 			for(int j=0;j<2;j++) {
-				if(mutant_check_che[j].length() == 1)
-				{
-					if((int)word.charAt(i)==(int)mutant_check_che[j].charAt(0)) {
-						System.out.print("Mutant Found.");
-						replaceAndInsert(word,i,mutant_check_che,id);
-					}
-				}
+				checkChar(word, id, i, j,mutant_check_che);
 			}
 
 			for(int j=0;j<2;j++) {
-				if(mutant_check_jeem[j].length() == 1)
-				{
-					if((int)word.charAt(i)==(int)mutant_check_jeem[j].charAt(0)) {
-						System.out.print("Mutant Found.");
-						replaceAndInsert(word,i,mutant_check_jeem,id);
-					}
-				}
+				checkChar(word, id, i, j,mutant_check_meem);
 			}
 
 			//--
 			for(int j=0;j<3;j++) {
-				if(mutant_check_tay[j].length() == 1)
-				{
-					if((int)word.charAt(i)==(int)mutant_check_tay[j].charAt(0)) {
-						System.out.print("Mutant Found.");
-						replaceAndInsert(word,i,mutant_check_tay,id);
-					}
-				}
+				checkChar(word, id, i, j,mutant_check_tay);
 			}
 			for(int j=0;j<2;j++) {
-				if(mutant_check_hay[j].length() == 1)
-				{
-					if((int)word.charAt(i)==(int)mutant_check_hay[j].charAt(0)) {
-						System.out.print("Mutant Found.");
-						replaceAndInsert(word,i,mutant_check_hay,id);
-					}
-				}
+				checkChar(word, id, i, j,mutant_check_hay);
 			}
 			for(int j=0;j<4;j++) {
-				if(mutant_check_zay[j].length() == 1)
-				{
-					if((int)word.charAt(i)==(int)mutant_check_zay[j].charAt(0)) {
-						System.out.print("Mutant Found.");
-						replaceAndInsert(word,i,mutant_check_zay,id);
-					}
-				}
+				checkChar(word, id, i, j,mutant_check_zay);
 			}
 			for(int j=0;j<3;j++) {
-				if(mutant_check_kaf[j].length() == 1)
-				{
-					if((int)word.charAt(i)==(int)mutant_check_kaf[j].charAt(0)) {
-						System.out.print("Mutant Found.");
-						replaceAndInsert(word,i,mutant_check_kaf,id);
-					}
-				}
+				checkChar(word, id, i, j,mutant_check_kaf);
 			}
 			for(int j=0;j<2;j++) {
-				if(mutant_check_daal[j].length() == 1)
-				{
-					if((int)word.charAt(i)==(int)mutant_check_daal[j].charAt(0)) {
-						System.out.print("Mutant Found.");
-						replaceAndInsert(word,i,mutant_check_daal,id);
-					}
-				}
+				checkChar(word, id, i, j,mutant_check_daal);
 			}
 			for(int j=0;j<2;j++) {
-				if(mutant_check_gaaf[j].length() == 1)
-				{
-					if((int)word.charAt(i)==(int)mutant_check_gaaf[j].charAt(0)) {
-						System.out.print("Mutant Found.");
-						replaceAndInsert(word,i,mutant_check_gaaf,id);
-					}
-				}
+				checkChar(word, id, i, j,mutant_check_gaaf);
 			}
 			for(int j=0;j<3;j++) {
-				if(mutant_check_say[j].length() == 1)
-				{
-					if((int)word.charAt(i)==(int)mutant_check_say[j].charAt(0)) {
-						System.out.print("Mutant Found.");
-						replaceAndInsert(word,i,mutant_check_say,id);
-					}
-				}
+				checkChar(word, id, i, j,mutant_check_say);
 			}
 			System.out.print(' ');
 		}
 		
 	}
-	public static void get_mutants() {
-		conn=Database_wajeeha.dbconnect();
-		try {
-						
-			
-			String query="SELECT id,word FROM words";
-			Statement stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery(query);
-			int w_id=-1;
-			while(rs.next()){
-			    //Display values
-				w_id=rs.getInt("id");
-				checkMutant(rs.getString("word"),w_id,0);
-			 }
+	public static void checkChar(String word, int id, int i, int j, String arr[]) {
+		if(arr[j].length() == 1) //not checking compound words
+		{
+			if((int)word.charAt(i)==(int)arr[j].charAt(0))
+			{
+				System.out.print("Mutant Found.");
+				replaceAndInsert(word,i,arr,id);
+			}
+		}
+	}
+	public static void control() throws SQLException {
+		Fascade fascade = new Fascade();
+		fascade.insertCreate();
+		fascade.getMutants();
+	}
 
-			
-		}catch(Exception e) {
-			e.printStackTrace();
-		}
-	}
+
 	
-	public static void control() {
-		conn=Database_wajeeha.dbconnect();
-		insert_create();
-		get_mutants();
-	}
-	
-	public static void insert_create() {
-		Statement st = null;
-		String query="CREATE TABLE Mutants(mutant_id INTEGER,word_id INTEGER,word varchar(50),PRIMARY KEY ( mutant_id ))";
-		try {
-			st = conn.createStatement();
-			PreparedStatement pstmt = conn.prepareStatement(query);
-			pstmt.executeUpdate();		
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
 }
