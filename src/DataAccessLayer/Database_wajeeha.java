@@ -3,15 +3,15 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class Database {
+public class Database_wajeeha {
 
-    private static Database instance;
+    private static Database_wajeeha instance;
     private Connection connection;
     private String url = "jdbc:mysql://localhost:3306/spellchecker?useSSL=false";
     private String username = "root";
     private String password = "";
 
-    private Database() throws SQLException {
+    private Database_wajeeha() throws SQLException {
         try {
             
             this.connection = DriverManager.getConnection(url, username, password);
@@ -24,11 +24,11 @@ public class Database {
         return connection;
     }
 
-    public static Database getInstance() throws SQLException {
+    public static Database_wajeeha getInstance() throws SQLException {
         if (instance == null) {
-            instance = new Database();
+            instance = new Database_wajeeha();
         } else if (instance.getConnection().isClosed()) {
-            instance = new Database();
+            instance = new Database_wajeeha();
         }
 
         return instance;

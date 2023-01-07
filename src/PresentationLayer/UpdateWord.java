@@ -122,6 +122,6 @@ public class UpdateWord extends JFrame {
 				Database_tanzyl dbt = new Database_tanzyl();
 				dbt.displayData(tblData);
 			}
-			}
+	}
 
 

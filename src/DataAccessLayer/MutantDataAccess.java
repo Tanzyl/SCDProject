@@ -15,7 +15,7 @@ public class MutantDataAccess {
 		try {
 		//	st = conn.createStatement();
 			//execute query
-			Statement pstmt =  Database.getInstance().getConnection().createStatement();
+			Statement pstmt =  Database_wajeeha.getInstance().getConnection().createStatement();
 			pstmt.executeUpdate(query);		
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -25,7 +25,7 @@ public class MutantDataAccess {
 	public static void insertMutant(int id, String new_word) throws SQLException {
 		String query="INSERT INTO Mutants VALUES(?,?,?)";
 //			st = conn.createStatement();
-		PreparedStatement pstmt = Database.getInstance().getConnection().prepareStatement(query);
+		PreparedStatement pstmt = Database_wajeeha.getInstance().getConnection().prepareStatement(query);
 		pstmt.setInt(1,Mutants.idee);//mutant id
 		pstmt.setInt(2, id); //word id
 		pstmt.setString(3,new_word); //generated mutant 
@@ -37,7 +37,7 @@ public class MutantDataAccess {
 						
 			
 			String query="SELECT id,word FROM words";
-			Statement stmt = Database.getInstance().getConnection().createStatement();
+			Statement stmt = Database_wajeeha.getInstance().getConnection().createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 			int wordId=-1;
 			while(rs.next()){

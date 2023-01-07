@@ -175,7 +175,7 @@ public class InsertingData extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
 				final UrduString_haram txt = new UrduString_haram();
-				Window1j_haram frame = new Window1j_haram(txt);
+				Window_haram frame = new Window_haram(txt);
 				frame.setVisible(true);
 				//Window1j_haram.showWindow();
 				

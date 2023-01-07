@@ -16,7 +16,7 @@ import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 
-public class FrontView extends JFrame {
+public class FrontViewj_wajeeha extends JFrame {
 
 	private JPanel contentPane;
 
@@ -27,7 +27,7 @@ public class FrontView extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					FrontView frame = new FrontView();
+					FrontViewj_wajeeha frame = new FrontViewj_wajeeha();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -39,7 +39,7 @@ public class FrontView extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public FrontView() {
+	public FrontViewj_wajeeha() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
