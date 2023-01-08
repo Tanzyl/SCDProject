@@ -1,5 +1,5 @@
 package LogicLayer;
-import PresentationLayer.Window1j_haram;
+import PresentationLayer.Window_haram;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -38,7 +38,7 @@ public class UrduString_haram {
 		conn=Database_haram.dbconnect();
 		if (!conn.isClosed()) {
 
-			Window1j_haram.setTextField("","");
+			Window_haram.setTextField("","");
 			try {
 
 
@@ -78,7 +78,7 @@ public class UrduString_haram {
 				listModel.clear();
 				for(int i=0;i<CheckWord.size();i++) {
 
-					Window1j_haram.setTextField(word.get(i),CheckWord.get(i));
+					Window_haram.setTextField(word.get(i),CheckWord.get(i));
 
 					listModel.addElement(CheckWord.get(i));
 				}
@@ -119,6 +119,5 @@ public class UrduString_haram {
 		}
 		String W=Wor.toString();
 		textField.setText("");
-		textField.setText(W);
-	}
+		textField.setText(W);}
 }

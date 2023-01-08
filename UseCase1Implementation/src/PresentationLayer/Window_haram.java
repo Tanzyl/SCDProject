@@ -1,7 +1,5 @@
 package PresentationLayer;
 
-//package PresentationLayer;
-
 import java.awt.Color;
 import java.awt.EventQueue;
 
@@ -28,7 +26,7 @@ import javax.swing.JList;
 import javax.swing.JScrollPane;
 import java.awt.Font;
 
-public class Window1j_haram extends JFrame {
+public class Window_haram extends JFrame {
 
 	private JPanel contentPane;
 	private static JTextField textField;
@@ -58,7 +56,7 @@ public class Window1j_haram extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Window1j_haram frame = new Window1j_haram(txt);
+					Window_haram frame = new Window_haram(txt);
 					frame.setVisible(true);
 				} 
 				catch (Exception e)
@@ -72,7 +70,7 @@ public class Window1j_haram extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public Window1j_haram(final UrduString_haram urdutext) {
+	public Window_haram(final UrduString_haram urdutext) {
 		setTitle("Test Text");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 747, 535);
